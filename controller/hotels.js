@@ -1,8 +1,8 @@
 import Hotel from '../model/hotels.js'
 import { createError } from '../util/error.js'
-export const createHotel = async(req,res,next)=>{
-     try {
-        if(!req.body.name) next(createError(401,'Enter Name of Hotel'))
+export const createHotel = async (req, res, next) => {
+    try {
+        if (!req.body.name) next(createError(401, 'Enter Name of Hotel'))
         const newHotel = new Hotel(req.body)
         const saveHotel = await newHotel.save()
         res.status(200).json(saveHotel)
@@ -10,15 +10,15 @@ export const createHotel = async(req,res,next)=>{
         next(error)
     }
 }
-export const updateHotel = async(req,res,next)=>{
+export const updateHotel = async (req, res, next) => {
     try {
-        const updatedHotel= await Hotel.findByIdAndUpdate(req.params.id, {$set:req.body}, {new:true})
+        const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true })
         res.status(200).json(updatedHotel)
     } catch (error) {
         next(error)
     }
 }
-export const deleteHotel = async(req,res,next)=>{
+export const deleteHotel = async (req, res, next) => {
     try {
         const deletedHotel = await Hotel.findByIdAndDelete(req.params.id)
         res.status(200).json(deletedHotel)
@@ -26,7 +26,7 @@ export const deleteHotel = async(req,res,next)=>{
         next(error)
     }
 }
-export const getHotel = async(req,res,next)=>{
+export const getHotel = async (req, res, next) => {
     try {
         const gotHotel = await Hotel.findById(req.params.id)
         res.status(200).json(gotHotel)
@@ -35,11 +35,24 @@ export const getHotel = async(req,res,next)=>{
 
     }
 }
-export const getHotels = async(req,res,next)=>{
-      
+export const getHotels = async (req, res, next) => {
+
     try {
         const allHotels = await Hotel.find()
         res.status(200).json(allHotels)
+    } catch (error) {
+        next(error)
+    }
+}
+export const countByCity = async (req, res, next) => {
+
+    try {
+        const cities = req.query.cities.split(",");
+        const list = await Promise.all(cities.map(city => {
+            return Hotel.countDocuments({ city: city })
+        }))
+
+        res.status(200).json(list)
     } catch (error) {
         next(error)
     }
