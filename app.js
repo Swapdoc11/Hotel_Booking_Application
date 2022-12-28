@@ -7,10 +7,26 @@ import hotelsroute from "./routes/hotels.js"
 import roomsroute from "./routes/rooms.js"
 import usersroute from "./routes/users.js"
 import cookieParser from "cookie-parser"
+import cors from "cors"
 dotenv.config()
 const app = express();
 const PORT = process.env.PORT || 4700
-
+app.use(cors())
+/*app.use((req, res, next) => {
+    //res.header('Access-Control-Allow-Origin', `http://${process.env.HOST}:${process.env.PORT_CLIENT}`) // update to match the domain you will make the request from
+    res.header('Access-Control-Allow-Origin', `http://localhost:3000`) // update to match the domain you will make the request from
+    res.header('Access-Control-Allow-Credentials', true)
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token'
+    )
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT')
+    if (req.method === 'OPTIONS') {
+      res.status(204).send()
+    } else {
+      next()
+    }
+  })*/
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -34,7 +50,7 @@ process.on('SIGINT', async () => {
 })
 
 app.use("/auth", authroute)
-app.use("/hotel", hotelsroute)
+app.use("/api/hotel", hotelsroute)
 app.use("/room", roomsroute)
 app.use("/user", usersroute)
 
