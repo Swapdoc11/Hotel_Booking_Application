@@ -1,0 +1,53 @@
+
+ERROR 1st -----------------------------------------------------
+
+import { Axios } from 'axios'    //Wrong
+import Axios from 'axios'         // Corrected
+
+ERROR 2nd -----------------------------------------------------
+
+return (
+    <>
+      <div className="pList">
+        
+          {data &&
+            images.map((imga, i) =>(
+
+              <div className="pListItem">   //Warning: Each child in a list should have a unique "key" prop.
+              <div key = {i} className="pListItem">   //Corrected
+                <img
+                  src={imga}
+                  alt=""
+                  className="pListImg"
+                />
+                <div className="pListTitles">
+                  <h1>Hotels</h1>
+                  <h2>{data[i].count} {data[i].type}</h2>
+                </div>
+              </div>
+           ))}
+      
+      </div >
+    </>
+  );
+
+ERROR 3rd -----------------------------------------------------------
+   
+    <div className="pListTitles">
+      <h1>{data[i].type}</h1>
+      <h2>{data[i].type} {data[i].count}</h2>
+    </div>
+    
+    
+    // Just Add ? that data should not be Empty
+
+
+    <div className="pListTitles">
+      <h1>{data[i]?.type}</h1>
+      <h2>{data[i]?.type} {data[i]?.count}</h2>
+    </div>
+
+
+
+
+   
