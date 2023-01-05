@@ -49,17 +49,17 @@ process.on('SIGINT', async () => {
     process.exit(0)
 })
 
-app.use("/auth", authroute)
+app.use("/api/auth", authroute)
 app.use("/api/hotel", hotelsroute)
-app.use("/room", roomsroute)
-app.use("/user", usersroute)
+app.use("/api/room", roomsroute)
+app.use("/api/user", usersroute)
 
 app.use((err, req, res, next) => {
     console.log("Comes to an Error",err);
     const msg = err.message
     const status = err.status
     const stack = err.stack
-    res.json({
+    return res.status(status).json({
         Error: msg,
         Status: status,
         Stack: stack
